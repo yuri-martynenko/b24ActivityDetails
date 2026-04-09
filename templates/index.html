@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Р’С‹РіСЂСѓР·РєР° Р°РєС‚РёРІРЅРѕСЃС‚РµР№ CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero-card">
+      <div class="hero-copy">
+        <p class="eyebrow">Bitrix24 CRM</p>
+        <h1>Р’С‹РіСЂСѓР·РєР° Р°РєС‚РёРІРЅРѕСЃС‚РµР№ РїРѕ Р»РёРґР°Рј Рё СЃРґРµР»РєР°Рј</h1>
+        <p class="lead">
+          Р’С‹Р±РµСЂРёС‚Рµ РїРµСЂРёРѕРґ СЃРѕР·РґР°РЅРёСЏ Р°РєС‚РёРІРЅРѕСЃС‚Рё, С‚РёРї Рё СЃС‚Р°С‚СѓСЃ. РџСЂРёР»РѕР¶РµРЅРёРµ СЃРѕР±РµСЂРµС‚ РґР°РЅРЅС‹Рµ РёР· CRM
+          Рё СЃРєР°С‡Р°РµС‚ Excel-С„Р°Р№Р» СЃРѕ РІСЃРµРјРё РЅР°Р№РґРµРЅРЅС‹РјРё Р°РєС‚РёРІРЅРѕСЃС‚СЏРјРё.
+        </p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <form id="export-form" method="post" action="/export">
+        <div class="filters-grid">
+          <label class="field field-inline">
+            <span>Р”Р°С‚Р° СЃРѕР·РґР°РЅРёСЏ РѕС‚</span>
+            <input type="date" name="date_from" id="date-from" value="{{ default_from }}" required>
+          </label>
+
+          <label class="field field-inline">
+            <span>Р”Р°С‚Р° СЃРѕР·РґР°РЅРёСЏ РґРѕ</span>
+            <input type="date" name="date_to" id="date-to" value="{{ default_to }}" required>
+          </label>
+
+          <fieldset class="field fieldset field-inline">
+            <legend>РЎСѓС‰РЅРѕСЃС‚Рё CRM</legend>
+            <div class="checkbox-group">
+              {% for key, item in owner_types.items() %}
+              <label class="checkbox-pill">
+                <input type="checkbox" name="owner" value="{{ key }}" checked>
+                <span>{{ item.label }}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+
+          <label class="field field-inline">
+            <span>РўРёРї Р°РєС‚РёРІРЅРѕСЃС‚Рё</span>
+            <select name="activity_type" id="activity-type" multiple size="4"></select>
+          </label>
+
+          <label class="field field-inline">
+            <span>РЎС‚Р°С‚СѓСЃ Р°РєС‚РёРІРЅРѕСЃС‚Рё</span>
+            <select name="activity_status" id="activity-status" multiple size="2"></select>
+          </label>
+
+          <div class="field action-field">
+            <div class="actions actions-compact">
+              <button type="button" class="secondary-button" id="refresh-options">РћР±РЅРѕРІРёС‚СЊ</button>
+              <button type="submit" class="primary-button">РЎРєР°С‡Р°С‚СЊ Excel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="preview-header">
+        <div>
+          <p class="eyebrow">РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Р№ СЃРїРёСЃРѕРє</p>
+          <h2>РђРєС‚РёРІРЅРѕСЃС‚Рё, РєРѕС‚РѕСЂС‹Рµ РїРѕРїР°РґСѓС‚ РІ РІС‹РіСЂСѓР·РєСѓ</h2>
+        </div>
+        <div class="preview-stats">
+          <strong id="records-count">{{ initial_count }}</strong>
+          <span id="preview-meta">РЎС‚СЂР°РЅРёС†Р° 1, РїРѕ 20 СЃС‚СЂРѕРє</span>
+        </div>
+      </div>
+
+      <div class="table-shell">
+        <table class="preview-table">
+          <thead>
+            <tr>
+              <th><button type="button" class="sort-button" data-sort="id">ID</button></th>
+              <th><button type="button" class="sort-button" data-sort="entity">РЎСѓС‰РЅРѕСЃС‚СЊ</button></th>
+              <th><button type="button" class="sort-button" data-sort="title">РќР°Р·РІР°РЅРёРµ</button></th>
+              <th><button type="button" class="sort-button" data-sort="type">РўРёРї</button></th>
+              <th><button type="button" class="sort-button" data-sort="status">РЎС‚Р°С‚СѓСЃ</button></th>
+              <th><button type="button" class="sort-button" data-sort="subject">РўРµРјР°</button></th>
+              <th><button type="button" class="sort-button" data-sort="createdAt">РЎРѕР·РґР°РЅР°</button></th>
+              <th><button type="button" class="sort-button" data-sort="deadline">РЎСЂРѕРє</button></th>
+              <th><button type="button" class="sort-button" data-sort="responsible">РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№</button></th>
+            </tr>
+          </thead>
+          <tbody id="preview-body">
+            {% for row in preview_rows %}
+            <tr>
+              <td>
+                {% if row.entityUrl %}
+                <a class="id-link" href="{{ row.entityUrl }}" target="_blank" rel="noopener noreferrer">{{ row.entityId }}</a>
+                {% else %}
+                {{ row.entityId }}
+                {% endif %}
+              </td>
+              <td>{{ row.entity }}</td>
+              <td>{{ row.entityTitle }}</td>
+              <td>{{ row.type }}</td>
+              <td>{{ row.status }}</td>
+              <td>{{ row.subject }}</td>
+              <td>{{ row.createdAt }}</td>
+              <td>{{ row.deadline }}</td>
+              <td>{{ row.responsible }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination" id="pagination">
+        <button type="button" class="secondary-button pagination-button" id="prev-page">РќР°Р·Р°Рґ</button>
+        <span id="page-info">РЎС‚СЂР°РЅРёС†Р° 1</span>
+        <button type="button" class="secondary-button pagination-button" id="next-page">Р’РїРµСЂРµРґ</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const initialTypes = {{ type_options|tojson }};
+    const initialStatuses = {{ status_options|tojson }};
+
+    const typeSelect = document.getElementById('activity-type');
+    const statusSelect = document.getElementById('activity-status');
+    const countNode = document.getElementById('records-count');
+    const previewMetaNode = document.getElementById('preview-meta');
+    const previewBody = document.getElementById('preview-body');
+    const refreshButton = document.getElementById('refresh-options');
+    const prevPageButton = document.getElementById('prev-page');
+    const nextPageButton = document.getElementById('next-page');
+    const pageInfoNode = document.getElementById('page-info');
+    const dateFromInput = document.getElementById('date-from');
+    const dateToInput = document.getElementById('date-to');
+    const sortButtons = Array.from(document.querySelectorAll('.sort-button'));
+    let currentPage = 1;
+    let currentSortBy = 'createdAt';
+    let currentSortDir = 'desc';
+
+    function fillSelect(select, options) {
+      select.innerHTML = '';
+      options.forEach((option) => {
+        const item = document.createElement('option');
+        item.value = option.value;
+        item.textContent = option.label;
+        select.appendChild(item);
+      });
+    }
+
+    function selectedOwners() {
+      return Array.from(document.querySelectorAll('input[name="owner"]:checked')).map((input) => input.value);
+    }
+
+    function selectedValues(select) {
+      return Array.from(select.selectedOptions).map((option) => option.value);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function renderPreviewRows(rows) {
+      previewBody.innerHTML = '';
+
+      if (!rows.length) {
+        const emptyRow = document.createElement('tr');
+        emptyRow.innerHTML = '<td colspan="9" class="empty-state">РџРѕ С‚РµРєСѓС‰РёРј С„РёР»СЊС‚СЂР°Рј Р°РєС‚РёРІРЅРѕСЃС‚Рё РЅРµ РЅР°Р№РґРµРЅС‹.</td>';
+        previewBody.appendChild(emptyRow);
+        return;
+      }
+
+      rows.forEach((row) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.entityUrl ? `<a class="id-link" href="${escapeHtml(row.entityUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.entityId ?? '')}</a>` : escapeHtml(row.entityId ?? '')}</td>
+          <td>${escapeHtml(row.entity ?? '')}</td>
+          <td>${escapeHtml(row.entityTitle ?? '')}</td>
+          <td>${escapeHtml(row.type ?? '')}</td>
+          <td>${escapeHtml(row.status ?? '')}</td>
+          <td>${escapeHtml(row.subject ?? '')}</td>
+          <td>${escapeHtml(row.createdAt ?? '')}</td>
+          <td>${escapeHtml(row.deadline ?? '')}</td>
+          <td>${escapeHtml(row.responsible ?? '')}</td>
+        `;
+        previewBody.appendChild(tr);
+      });
+    }
+
+    function syncSortButtons() {
+      sortButtons.forEach((button) => {
+        const isActive = button.dataset.sort === currentSortBy;
+        button.dataset.active = isActive ? 'true' : 'false';
+        button.dataset.direction = isActive ? currentSortDir : '';
+      });
+    }
+
+    async function reloadAll(resetPage = false) {
+      if (resetPage) {
+        currentPage = 1;
+      }
+      const params = new URLSearchParams();
+      params.set('date_from', dateFromInput.value);
+      params.set('date_to', dateToInput.value);
+      selectedOwners().forEach((owner) => params.append('owner', owner));
+      const currentTypeValues = selectedValues(typeSelect);
+      const currentStatusValues = selectedValues(statusSelect);
+
+      refreshButton.disabled = true;
+      refreshButton.textContent = 'РћР±РЅРѕРІР»РµРЅРёРµ...';
+
+      try {
+        const optionsResponse = await fetch(`/api/filter-options?${params.toString()}`);
+        const optionsPayload = await optionsResponse.json();
+        fillSelect(typeSelect, optionsPayload.types || []);
+        fillSelect(statusSelect, optionsPayload.statuses || []);
+        Array.from(typeSelect.options).forEach((option) => {
+          option.selected = currentTypeValues.includes(option.value);
+        });
+        Array.from(statusSelect.options).forEach((option) => {
+          option.selected = currentStatusValues.includes(option.value);
+        });
+
+        const previewParams = new URLSearchParams(params);
+        selectedValues(typeSelect).forEach((value) => previewParams.append('activity_type', value));
+        selectedValues(statusSelect).forEach((value) => previewParams.append('activity_status', value));
+        previewParams.set('page', String(currentPage));
+        previewParams.set('sort_by', currentSortBy);
+        previewParams.set('sort_dir', currentSortDir);
+
+        const previewResponse = await fetch(`/api/preview?${previewParams.toString()}`);
+        const previewPayload = await previewResponse.json();
+        countNode.textContent = previewPayload.count ?? '0';
+        currentPage = previewPayload.page ?? 1;
+        previewMetaNode.textContent = `РЎС‚СЂР°РЅРёС†Р° ${currentPage} РёР· ${previewPayload.totalPages}, РїРѕ ${previewPayload.pageSize} СЃС‚СЂРѕРє`;
+        pageInfoNode.textContent = `РЎС‚СЂР°РЅРёС†Р° ${currentPage} РёР· ${previewPayload.totalPages}`;
+        prevPageButton.disabled = currentPage <= 1;
+        nextPageButton.disabled = currentPage >= (previewPayload.totalPages ?? 1);
+        syncSortButtons();
+        renderPreviewRows(previewPayload.rows || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        refreshButton.disabled = false;
+        refreshButton.textContent = 'РћР±РЅРѕРІРёС‚СЊ';
+      }
+    }
+
+    fillSelect(typeSelect, initialTypes);
+    fillSelect(statusSelect, initialStatuses);
+    syncSortButtons();
+
+    refreshButton.addEventListener('click', () => reloadAll(true));
+    document.querySelectorAll('input[name="owner"]').forEach((input) => input.addEventListener('change', () => reloadAll(true)));
+    dateFromInput.addEventListener('change', () => reloadAll(true));
+    dateToInput.addEventListener('change', () => reloadAll(true));
+    typeSelect.addEventListener('change', () => reloadAll(true));
+    statusSelect.addEventListener('change', () => reloadAll(true));
+    prevPageButton.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage -= 1;
+        reloadAll(false);
+      }
+    });
+    nextPageButton.addEventListener('click', () => {
+      currentPage += 1;
+      reloadAll(false);
+    });
+    sortButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const nextSort = button.dataset.sort;
+        if (currentSortBy === nextSort) {
+          currentSortDir = currentSortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+          currentSortBy = nextSort;
+          currentSortDir = nextSort === 'createdAt' || nextSort === 'deadline' ? 'desc' : 'asc';
+        }
+        reloadAll(true);
+      });
+    });
+  </script>
+</body>
+</html>
