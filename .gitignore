@@ -1,0 +1,5 @@
+.deploy/
+.tmp-skill/
+__pycache__/
+*.pyc
+.env
