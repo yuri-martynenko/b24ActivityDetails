@@ -1,0 +1,385 @@
+:root {
+  --bg-top: #f5efe5;
+  --bg-bottom: #d7efe8;
+  --card: rgba(255, 255, 255, 0.82);
+  --card-strong: rgba(255, 255, 255, 0.96);
+  --border: rgba(15, 118, 110, 0.16);
+  --text: #16302f;
+  --muted: #5f7572;
+  --accent: #0f766e;
+  --accent-dark: #0a4f49;
+  --shadow: 0 24px 60px rgba(18, 51, 49, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Manrope", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.8), transparent 30%),
+    linear-gradient(155deg, var(--bg-top), var(--bg-bottom));
+}
+
+.page-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 56px;
+}
+
+.hero-card,
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.hero-card {
+  display: block;
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(24px, 2.15vw, 34px);
+  line-height: 1.02;
+  max-width: none;
+  white-space: nowrap;
+}
+
+.lead {
+  margin: 10px 0 0;
+  max-width: 72ch;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.metric-label,
+.metric-note,
+.field small,
+legend {
+  color: var(--muted);
+}
+
+.metric-label,
+.metric-note {
+  display: block;
+}
+
+#records-count {
+  display: block;
+  margin: 10px 0 6px;
+  font-size: 52px;
+  line-height: 1;
+}
+
+.panel {
+  margin-top: 22px;
+  padding: 28px;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr 1.2fr 0.95fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field span,
+legend {
+  font-weight: 700;
+}
+
+.fieldset {
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 20px;
+  padding: 10px 12px 12px;
+  min-height: 100%;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.checkbox-pill {
+  position: relative;
+}
+
+.checkbox-pill input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+}
+
+.checkbox-pill span {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.08);
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.checkbox-pill input:checked + span {
+  background: rgba(15, 118, 110, 0.16);
+  border-color: rgba(15, 118, 110, 0.35);
+}
+
+input[type="date"],
+select {
+  width: 100%;
+  border: 1px solid rgba(15, 118, 110, 0.14);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 12px 14px;
+  color: var(--text);
+  font: inherit;
+}
+
+select[multiple] {
+  min-height: 124px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.actions-compact {
+  margin-top: 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.action-field {
+  min-width: 0;
+  justify-content: end;
+  height: 100%;
+}
+
+.action-field .actions {
+  margin-top: auto;
+  width: 100%;
+}
+
+.preview-panel {
+  margin-top: 18px;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.preview-header h2 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 34px);
+}
+
+.preview-stats {
+  text-align: right;
+}
+
+.preview-stats strong {
+  display: block;
+  font-size: 42px;
+  line-height: 1;
+}
+
+.preview-stats span {
+  color: var(--muted);
+}
+
+.table-shell {
+  overflow: auto;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+}
+
+.preview-table th,
+.preview-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(15, 118, 110, 0.08);
+  vertical-align: top;
+  font-size: 14px;
+}
+
+.preview-table th {
+  position: sticky;
+  top: 0;
+  background: #eff8f6;
+  z-index: 1;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sort-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  border-radius: 0;
+}
+
+.sort-button::after {
+  content: "в†•";
+  font-size: 11px;
+  opacity: 0.45;
+}
+
+.sort-button[data-active="true"][data-direction="asc"]::after {
+  content: "в†‘";
+  opacity: 1;
+}
+
+.sort-button[data-active="true"][data-direction="desc"]::after {
+  content: "в†“";
+  opacity: 1;
+}
+
+.id-link {
+  color: var(--accent-dark);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.id-link:hover {
+  text-decoration: underline;
+}
+
+.preview-table tbody tr:hover {
+  background: rgba(15, 118, 110, 0.04);
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 28px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pagination-button {
+  padding: 10px 16px;
+}
+
+#page-info {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 24px;
+  min-width: 168px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, var(--accent), #14958b);
+  color: #fff;
+}
+
+.secondary-button {
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--accent-dark);
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+@media (max-width: 900px) {
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    white-space: normal;
+  }
+
+  .preview-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .preview-stats {
+    text-align: left;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
