@@ -5,7 +5,7 @@ import json
 import os
 
 API_BASE = 'https://vibecode.bitrix24.tech/v1'
-STATIC_DIR = '/app/b24ActivityDetails-main'
+STATIC_DIR = '/opt/app/b24ActivityDetails-main'
 
 class Handler(http.server.BaseHTTPRequestHandler):
     def log_message(self, format, *args): pass
