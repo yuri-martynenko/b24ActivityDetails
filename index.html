@@ -9,24 +9,24 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#2d3748}
 .header{background:linear-gradient(135deg,#2B5CE6,#1a3fa0);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-.header h1{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
+.header h1{font-size:17px;font-weight:700}
 .header p{font-size:12px;opacity:.75}
 .wrap{padding:16px 20px}
-.fc{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.filters-row{display:flex;flex-wrap:wrap;gap:0;align-items:stretch}
-.fb{display:flex;flex-direction:column;gap:6px;padding:0 16px}
+.fc{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.frow{display:flex;flex-wrap:wrap;gap:0;align-items:flex-start}
+.fb{display:flex;flex-direction:column;gap:6px;padding:0 18px}
 .fb:first-child{padding-left:0}
-.fb-label{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px}
-.fd{width:1px;background:#e8ecf0;margin:0 4px;align-self:stretch}
+.fbl{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+.fdiv{width:1px;background:#e8ecf0;align-self:stretch;margin:0 2px}
 .dates{display:flex;gap:6px;align-items:center}
 input[type=date]{border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 10px;font-size:13px;color:#2d3748;background:#fafbfc}
 input[type=date]:focus{outline:none;border-color:#2B5CE6}
-.pills{display:flex;flex-wrap:wrap;gap:5px}
-.pill{display:flex;align-items:center;gap:4px;padding:5px 12px;border:1.5px solid #e2e8f0;border-radius:16px;cursor:pointer;font-size:12px;font-weight:500;user-select:none;white-space:nowrap;background:#fff;transition:all .15s}
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.pill{display:flex;align-items:center;gap:4px;padding:5px 11px;border:1.5px solid #e2e8f0;border-radius:16px;cursor:pointer;font-size:12px;font-weight:500;user-select:none;white-space:nowrap;background:#fff;transition:all .15s}
 .pill:hover{border-color:#2B5CE6;background:#f0f4ff}
 .pill input{display:none}
 .pill.on{background:#2B5CE6;border-color:#2B5CE6;color:#fff}
-.ac{display:flex;gap:10px;align-items:center;margin-top:14px}
+.arow{display:flex;gap:10px;align-items:center;margin-top:14px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 22px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
 .bp{background:linear-gradient(135deg,#2B5CE6,#1a3fa0);color:#fff;box-shadow:0 2px 8px rgba(43,92,230,.3)}
 .bp:hover{transform:translateY(-1px)}
@@ -36,13 +36,13 @@ input[type=date]:focus{outline:none;border-color:#2B5CE6}
 .sb{border-left:4px solid #2B5CE6;border-radius:0 7px 7px 0;padding:9px 14px;font-size:13px;color:#2B5CE6;background:#edf2ff;margin-top:10px;display:none}
 .sb.err{background:#fff5f5;border-color:#e53e3e;color:#c53030}
 .sb.ok{background:#f0fff4;border-color:#38a169;color:#276749}
-.pg-bar{height:4px;background:#e2e8f0;border-radius:2px;margin-top:8px;overflow:hidden;display:none}
-.pg-fill{height:100%;background:linear-gradient(90deg,#2B5CE6,#4c7af4);transition:width .3s;width:0}
-.stats{display:flex;gap:10px;margin-top:10px;display:none}
-.stat{flex:1;background:#f8faff;border-radius:8px;padding:10px 14px;text-align:center;border:1px solid #e2e8f0}
+.pgbar{height:4px;background:#e2e8f0;border-radius:2px;margin-top:8px;overflow:hidden;display:none}
+.pgfill{height:100%;background:linear-gradient(90deg,#2B5CE6,#4c7af4);transition:width .3s;width:0}
+.stats{display:flex;gap:10px;margin-top:12px;display:none}
+.stat{flex:1;background:#f8faff;border-radius:8px;padding:10px;text-align:center;border:1px solid #e2e8f0}
 .stat .n{font-size:22px;font-weight:700;color:#2B5CE6}
 .stat .l{font-size:11px;color:#718096;margin-top:1px}
-.rc{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:none}
+.rc{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:none}
 .rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .rh strong{font-size:14px}
 .tw{overflow-x:auto}
@@ -53,50 +53,53 @@ tr:hover td{background:#f8faff}
 .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
 .bb{background:#bee3f8;color:#1a365d}
 .bg{background:#c6f6d5;color:#22543d}
+.bv{background:#e9d8fd;color:#44337a}
+.by{background:#fefcbf;color:#744210}
 .bo{background:#feebc8;color:#744210}
-.bgr{background:#e2e8f0;color:#4a5568}
 .pager{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap;align-items:center}
 .pgb{padding:5px 10px;border:1.5px solid #e2e8f0;border-radius:5px;background:#fff;cursor:pointer;font-size:12px}
 .pgb:hover{border-color:#2B5CE6;color:#2B5CE6}
 .pgb.on{background:#2B5CE6;color:#fff;border-color:#2B5CE6}
-.pg-info{font-size:12px;color:#718096;margin-left:6px}
+.pgi{font-size:12px;color:#718096;margin-left:6px}
 </style>
 </head>
 <body>
 <div class="header">
   <h1>📊 Экспорт активностей CRM</h1>
-  <p>Лиды и сделки → Excel</p>
+  <p>Активности по лидам, сделкам, контактам, компаниям → Excel</p>
 </div>
 <div class="wrap">
   <div class="fc">
-    <div class="filters-row">
+    <div class="frow">
       <div class="fb">
-        <div class="fb-label">📅 Период</div>
+        <div class="fbl">📅 Период</div>
         <div class="dates">
           <input type="date" id="df"/>
           <span style="color:#a0aec0">—</span>
           <input type="date" id="dt"/>
         </div>
       </div>
-      <div class="fd"></div>
+      <div class="fdiv"></div>
       <div class="fb">
-        <div class="fb-label">🏷 Сущность</div>
+        <div class="fbl">🏷 Сущность</div>
         <div class="pills" id="ePills">
-          <label class="pill on"><input type="checkbox" value="1" checked>👤 Лиды</label>
-          <label class="pill on"><input type="checkbox" value="2" checked>🤝 Сделки</label>
+          <label class="pill on"><input type="checkbox" value="1" checked>👤 Лид</label>
+          <label class="pill on"><input type="checkbox" value="2" checked>🤝 Сделка</label>
+          <label class="pill on"><input type="checkbox" value="3" checked>👥 Контакт</label>
+          <label class="pill on"><input type="checkbox" value="4" checked>🏢 Компания</label>
         </div>
       </div>
-      <div class="fd"></div>
+      <div class="fdiv"></div>
       <div class="fb">
-        <div class="fb-label">📌 Статус</div>
+        <div class="fbl">📌 Статус</div>
         <div class="pills" id="sPills">
           <label class="pill on"><input type="checkbox" value="true" checked>✅ Завершено</label>
           <label class="pill on"><input type="checkbox" value="false" checked>⏳ Активно</label>
         </div>
       </div>
-      <div class="fd"></div>
+      <div class="fdiv"></div>
       <div class="fb">
-        <div class="fb-label">⚡ Тип активности</div>
+        <div class="fbl">⚡ Тип активности</div>
         <div class="pills" id="tPills">
           <label class="pill on"><input type="checkbox" value="2" checked>📞 Звонок</label>
           <label class="pill on"><input type="checkbox" value="4" checked>📧 Email</label>
@@ -106,16 +109,18 @@ tr:hover td{background:#f8faff}
         </div>
       </div>
     </div>
-    <div class="ac">
+    <div class="arow">
       <button class="btn bp" id="loadBtn" onclick="load()">🔍 Загрузить</button>
       <button class="btn bs" id="expBtn" onclick="doExport()" style="display:none">📥 Скачать Excel</button>
     </div>
     <div class="sb" id="sb"></div>
-    <div class="pg-bar" id="pgbar"><div class="pg-fill" id="pgfill"></div></div>
+    <div class="pgbar" id="pgbar"><div class="pgfill" id="pgfill"></div></div>
     <div class="stats" id="stats">
       <div class="stat"><div class="n" id="sAll">0</div><div class="l">Всего</div></div>
-      <div class="stat"><div class="n" id="sL">0</div><div class="l">По лидам</div></div>
-      <div class="stat"><div class="n" id="sD">0</div><div class="l">По сделкам</div></div>
+      <div class="stat"><div class="n" id="sL">0</div><div class="l">Лиды</div></div>
+      <div class="stat"><div class="n" id="sD">0</div><div class="l">Сделки</div></div>
+      <div class="stat"><div class="n" id="sC">0</div><div class="l">Контакты</div></div>
+      <div class="stat"><div class="n" id="sCo">0</div><div class="l">Компании</div></div>
     </div>
   </div>
   <div class="rc" id="rc">
@@ -123,9 +128,9 @@ tr:hover td{background:#f8faff}
     <div class="tw">
       <table>
         <thead><tr>
-          <th>#</th><th>Тип суш.</th><th>ID</th><th>Название</th>
-          <th>Активность</th><th>Тема</th><th>Ответственный</th>
-          <th>Создана</th><th>Срок</th><th>Статус</th>
+          <th>#</th><th>Тип</th><th>ID</th><th>Название</th>
+          <th>Активность</th><th>Тема</th>
+          <th>Ответственный</th><th>Создана</th><th>Срок</th><th>Статус</th>
         </tr></thead>
         <tbody id="tb"></tbody>
       </table>
@@ -134,45 +139,83 @@ tr:hover td{background:#f8faff}
   </div>
 </div>
 <script>
-const KEY='vibe_api_LPzpJuecyBB8QcrWN2W7mIk32F2c0y24_dc8d4f';
-const BASE='/api';
 const TMAP={1:'Встреча',2:'Звонок',4:'Email',6:'Задача',12:'Чат'};
 const OMAP={1:'Лид',2:'Сделка',3:'Контакт',4:'Компания'};
-let rows=[], pg=1; const PS=100;
+const OCLS={'Лид':'bb','Сделка':'bg','Контакт':'bv','Компания':'by'};
+let rows=[], pg=1;
+const PS=100;
 
-// pills
 document.querySelectorAll('.pills').forEach(c=>c.querySelectorAll('.pill').forEach(p=>{
-  p.addEventListener('click',e=>{e.preventDefault();const cb=p.querySelector('input');cb.checked=!cb.checked;p.classList.toggle('on',cb.checked);});
+  p.addEventListener('click',e=>{
+    e.preventDefault();
+    const cb=p.querySelector('input');
+    cb.checked=!cb.checked;
+    p.classList.toggle('on',cb.checked);
+  });
 }));
 
-// default dates
-const td=new Date(),ma=new Date(td);
+const td=new Date(), ma=new Date(td);
 ma.setDate(td.getDate()-30);
 document.getElementById('dt').value=td.toISOString().split('T')[0];
 document.getElementById('df').value=ma.toISOString().split('T')[0];
 
-function msg(t,tp){const e=document.getElementById('sb');e.textContent=t;e.className='sb'+(tp==='err'?' err':tp==='ok'?' ok':'');e.style.display=t?'block':'none';}
-function prg(p){document.getElementById('pgbar').style.display=p>0&&p<100?'block':'none';document.getElementById('pgfill').style.width=p+'%';}
+function msg(t,tp){
+  const e=document.getElementById('sb');
+  e.textContent=t;
+  e.className='sb'+(tp==='err'?' err':tp==='ok'?' ok':'');
+  e.style.display=t?'block':'none';
+}
+function prg(p){
+  document.getElementById('pgbar').style.display=p>0&&p<100?'block':'none';
+  document.getElementById('pgfill').style.width=p+'%';
+}
 function checked(id){return[...document.querySelectorAll('#'+id+' input:checked')].map(x=>x.value);}
 
-async function apiFetch(path, parts){
-  // parts = array of 'key=value' strings, avoids query object issues with arrays
-  const url=BASE+path+'?'+parts.join('&');
-  const r=await fetch(url,{headers:{'X-Vibe-Key':KEY}});
-  if(!r.ok)throw new Error('HTTP '+r.status+': '+await r.text());
-  return r.json();
+// Fetch via our CORS proxy, passing query as raw string to preserve [] params
+async function apiFetch(apiPath, queryParts){
+  const qs = queryParts.join('&');
+  const url = '/api' + apiPath + '?' + qs;
+  const resp = await fetch(url);
+  if(!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + apiPath);
+  const text = await resp.text();
+  try { return JSON.parse(text); }
+  catch(e) { throw new Error('Ошибка парсинга JSON (получено ' + text.length + ' байт): ' + e.message); }
 }
 
-async function fetchAll(path, baseParts){
-  let all=[], offset=0;
+async function fetchAllPages(apiPath, baseParams){
+  let all=[], offset=0, page=1;
   while(true){
-    const d=await apiFetch(path,[...baseParts,'limit=50','offset='+offset]);
-    all=all.concat(d.data||[]);
-    if(!d.meta?.hasMore)break;
-    offset+=50;
-    prg(Math.min(70,10+offset/20));
+    const parts=[...baseParams, 'limit=50', 'offset='+offset];
+    msg('Загрузка страница '+page+'... (получено '+all.length+')');
+    const d = await apiFetch(apiPath, parts);
+    const batch = d.data || [];
+    all = all.concat(batch);
+    prg(Math.min(65, 5 + (all.length / Math.max(d.meta?.total||1, 1)) * 60));
+    if(!d.meta?.hasMore) break;
+    offset += 50;
+    page++;
   }
   return all;
+}
+
+async function loadEntityNames(ids, apiPath, nameField){
+  const map = {};
+  for(let i=0; i<ids.length; i+=50){
+    const batch = ids.slice(i, i+50);
+    const parts = batch.map((id,j)=>'filter[id]['+j+']='+id);
+    parts.push('limit=50');
+    try{
+      const d = await apiFetch(apiPath, parts);
+      (d.data||[]).forEach(item=>{
+        if(nameField==='lead'){
+          map[item.id]=item.title||((item.name||'')+' '+(item.lastName||'')).trim()||('ID '+item.id);
+        } else {
+          map[item.id]=item.title||item.name||('ID '+item.id);
+        }
+      });
+    }catch(e){ console.warn('loadNames error', e); }
+  }
+  return map;
 }
 
 async function load(){
@@ -184,94 +227,139 @@ async function load(){
   rows=[];
   const df=document.getElementById('df').value;
   const dt=document.getElementById('dt').value;
-  const ent=checked('ePills');
-  const stat=checked('sPills');
-  const typ=checked('tPills');
+  const ents=checked('ePills');
+  const stats=checked('sPills');
+  const types=checked('tPills');
   if(!df||!dt){msg('Укажите период','err');btn.disabled=false;return;}
-  if(!ent.length){msg('Выберите сущность','err');btn.disabled=false;return;}
-  if(!typ.length){msg('Выберите тип активности','err');btn.disabled=false;return;}
+  if(!ents.length){msg('Выберите сущность','err');btn.disabled=false;return;}
+  if(!types.length){msg('Выберите тип активности','err');btn.disabled=false;return;}
   try{
-    msg('Загрузка активностей...');prg(5);
-    // build raw query parts
-    const parts=[
+    prg(5);
+    // Build base query params
+    const baseParams=[
       'filter[createdAt][from]='+encodeURIComponent(df+'T00:00:00'),
       'filter[createdAt][to]='+encodeURIComponent(dt+'T23:59:59')
     ];
-    ent.forEach((v,i)=>parts.push('filter[ownerTypeId]['+i+']='+v));
-    typ.forEach((v,i)=>parts.push('filter[typeId]['+i+']='+v));
-    const acts=await fetchAll('/activities',parts);
-    // client-side status filter
-    const all=stat.length===2?acts:acts.filter(a=>stat.includes(String(a.completed)));
-    msg('Загрузка сущностей...');prg(75);
-    // get entity names
-    const lids=[...new Set(all.filter(a=>a.ownerTypeId===1).map(a=>a.ownerId).filter(Boolean))];
-    const dids=[...new Set(all.filter(a=>a.ownerTypeId===2).map(a=>a.ownerId).filter(Boolean))];
-    const lmap={},dmap={},umap={};
-    for(let i=0;i<lids.length;i+=50){
-      const p=lids.slice(i,i+50).map((id,j)=>'filter[id]['+j+']='+id);
-      p.push('select[]=id','select[]=title','select[]=name','select[]=lastName','limit=50');
-      try{const d=await apiFetch('/leads',p);(d.data||[]).forEach(l=>{lmap[l.id]=l.title||((l.name||'')+' '+(l.lastName||'')).trim()||'Лид #'+l.id;});}catch(e){console.warn('leads',e);}
-    }
-    for(let i=0;i<dids.length;i+=50){
-      const p=dids.slice(i,i+50).map((id,j)=>'filter[id]['+j+']='+id);
-      p.push('select[]=id','select[]=title','limit=50');
-      try{const d=await apiFetch('/deals',p);(d.data||[]).forEach(d2=>{dmap[d2.id]=d2.title||'Сделка #'+d2.id;});}catch(e){console.warn('deals',e);}
-    }
-    try{const d=await apiFetch('/users',['limit=200']);(d.data||[]).forEach(u=>{umap[u.id]=((u.name||'')+' '+(u.lastName||'')).trim();});}catch(e){}
+    ents.forEach((v,i)=>baseParams.push('filter[ownerTypeId]['+i+']='+v));
+    types.forEach((v,i)=>baseParams.push('filter[typeId]['+i+']='+v));
+
+    const all = await fetchAllPages('/activities', baseParams);
+
+    // Client-side status filter
+    const filtered = stats.length===2 ? all : all.filter(a=>stats.includes(String(a.completed)));
+
+    msg('Загрузка названий сущностей...'); prg(70);
+
+    // Collect IDs by type
+    const idsByType = {1:[],2:[],3:[],4:[]};
+    filtered.forEach(a=>{
+      if(idsByType[a.ownerTypeId]) idsByType[a.ownerTypeId].push(a.ownerId);
+    });
+    const uniq = t => [...new Set(idsByType[t].filter(Boolean))];
+
+    const [lmap, dmap, cmap, comap] = await Promise.all([
+      uniq(1).length ? loadEntityNames(uniq(1), '/leads', 'lead') : Promise.resolve({}),
+      uniq(2).length ? loadEntityNames(uniq(2), '/deals', 'title') : Promise.resolve({}),
+      uniq(3).length ? loadEntityNames(uniq(3), '/contacts', 'contact') : Promise.resolve({}),
+      uniq(4).length ? loadEntityNames(uniq(4), '/companies', 'title') : Promise.resolve({}),
+    ]);
+    const nameMaps = {1:lmap, 2:dmap, 3:cmap, 4:comap};
+
+    msg('Загрузка пользователей...'); prg(85);
+    let umap={};
+    try{
+      const ud=await apiFetch('/users',['limit=200']);
+      (ud.data||[]).forEach(u=>{umap[u.id]=((u.name||'')+' '+(u.lastName||'')).trim();});
+    }catch(e){}
+
     prg(95);
-    rows=all.map(a=>({
-      id:a.id,
-      otype:OMAP[a.ownerTypeId]||'Type '+a.ownerTypeId,
-      oid:a.ownerId,
-      oname:a.ownerTypeId===1?(lmap[a.ownerId]||'—'):(dmap[a.ownerId]||'—'),
-      tname:TMAP[a.typeId]||'Type '+a.typeId,
-      subj:a.subject||'—',
-      resp:(umap[a.responsibleId]||'').trim()||'ID '+a.responsibleId,
-      cre:fmt(a.createdAt),dl:fmt(a.deadline),
-      done:a.completed?'Завершено':'Активно',
-      desc:strip(a.description||'')
-    }));
+    rows=filtered.map(a=>{
+      const otype=OMAP[a.ownerTypeId]||('Type '+a.ownerTypeId);
+      const nm=nameMaps[a.ownerTypeId]||{};
+      return{
+        id:a.id, otype, oid:a.ownerId,
+        oname:nm[a.ownerId]||'—',
+        tname:TMAP[a.typeId]||('Type '+a.typeId),
+        subj:a.subject||'—',
+        resp:(umap[a.responsibleId]||'').trim()||('ID '+a.responsibleId),
+        cre:fmt(a.createdAt), dl:fmt(a.deadline),
+        done:a.completed?'Завершено':'Активно',
+        desc:strip(a.description||'')
+      };
+    });
+
     document.getElementById('sAll').textContent=rows.length;
     document.getElementById('sL').textContent=rows.filter(r=>r.otype==='Лид').length;
     document.getElementById('sD').textContent=rows.filter(r=>r.otype==='Сделка').length;
+    document.getElementById('sC').textContent=rows.filter(r=>r.otype==='Контакт').length;
+    document.getElementById('sCo').textContent=rows.filter(r=>r.otype==='Компания').length;
     document.getElementById('stats').style.display='flex';
-    prg(100);msg('✅ Загружено '+rows.length+' активностей','ok');
-    pg=1;render();
+    prg(100);
+    msg('✅ Загружено '+rows.length+' активностей','ok');
+    pg=1; render();
     document.getElementById('rc').style.display='block';
-    if(rows.length)document.getElementById('expBtn').style.display='inline-flex';
-  }catch(e){msg('Ошибка: '+e.message,'err');console.error(e);}
-  finally{btn.disabled=false;prg(0);}
+    if(rows.length) document.getElementById('expBtn').style.display='inline-flex';
+  }catch(e){
+    msg('Ошибка: '+e.message,'err');
+    console.error(e);
+  }finally{
+    btn.disabled=false; prg(0);
+  }
 }
+
 function fmt(d){if(!d)return'—';try{return new Date(d).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}catch{return d;}}
 function strip(h){const t=document.createElement('div');t.innerHTML=h;return t.textContent||t.innerText||'';}
 function x(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
 function bdg(t,c){return'<span class="badge '+c+'">'+t+'</span>';}
+
 function render(){
   const s=(pg-1)*PS;
   document.getElementById('tb').innerHTML=rows.slice(s,s+PS).map((r,i)=>
-    `<tr><td>${s+i+1}</td><td>${bdg(r.otype,r.otype==='Лид'?'bb':'bg')}</td><td>${r.oid}</td>`+
-    `<td title="${x(r.oname)}">${x(r.oname)}</td><td>${r.tname}</td>`+
-    `<td title="${x(r.subj)}">${x(r.subj)}</td><td>${x(r.resp)}</td>`+
-    `<td>${r.cre}</td><td>${r.dl}</td>`+
-    `<td>${bdg(r.done,r.done==='Завершено'?'bg':'bo')}</td></tr>`
+    `<tr>
+      <td>${s+i+1}</td>
+      <td>${bdg(r.otype, OCLS[r.otype]||'bb')}</td>
+      <td>${r.oid}</td>
+      <td title="${x(r.oname)}">${x(r.oname)}</td>
+      <td>${r.tname}</td>
+      <td title="${x(r.subj)}">${x(r.subj)}</td>
+      <td>${x(r.resp)}</td>
+      <td>${r.cre}</td>
+      <td>${r.dl}</td>
+      <td>${bdg(r.done, r.done==='Завершено'?'bg':'bo')}</td>
+    </tr>`
   ).join('');
   renderPager();
 }
+
 function renderPager(){
-  const tot=Math.ceil(rows.length/PS),p=document.getElementById('pager');
+  const tot=Math.ceil(rows.length/PS), p=document.getElementById('pager');
   if(tot<=1){p.innerHTML='';return;}
   let h='';
   for(let i=1;i<=tot;i++){
-    if(i===1||i===tot||Math.abs(i-pg)<=2)h+=`<button class="pgb${i===pg?' on':''}" onclick="goPage(${i})">${i}</button>`;
-    else if(Math.abs(i-pg)===3)h+='<span style="padding:0 4px">…</span>';
+    if(i===1||i===tot||Math.abs(i-pg)<=2)
+      h+=`<button class="pgb${i===pg?' on':''}" onclick="goPage(${i})">${i}</button>`;
+    else if(Math.abs(i-pg)===3) h+='<span style="padding:0 4px">…</span>';
   }
-  h+=`<span class="pg-info">${rows.length} зап., стр. ${pg} из ${tot}</span>`;
+  h+=`<span class="pgi">${rows.length} зап., стр. ${pg} из ${tot}</span>`;
   p.innerHTML=h;
 }
-function goPage(n){pg=n;render();}
+
+function goPage(n){pg=n;render();window.scrollTo(0,document.getElementById('rc').offsetTop-20);}
+
 function doExport(){
   if(!rows.length)return;
-  const data=rows.map(r=>({"Тип сущности":r.otype,"ID":r.oid,"Название":r.oname,"Активность":r.tname,"Тема":r.subj,"Ответственный":r.resp,"Создана":r.cre,"Срок":r.dl,"Статус":r.done,"Описание":r.desc}));
+  const data=rows.map(r=>({
+    'Тип сущности':r.otype,
+    'ID':r.oid,
+    'Название':r.oname,
+    'Активность':r.tname,
+    'Тема':r.subj,
+    'Ответственный':r.resp,
+    'Создана':r.cre,
+    'Срок':r.dl,
+    'Статус':r.done,
+    'Описание':r.desc
+  }));
   const ws=XLSX.utils.json_to_sheet(data);
   ws['!cols']=[10,8,28,14,28,20,18,18,12,40].map(w=>({wch:w}));
   const wb=XLSX.utils.book_new();
@@ -279,4 +367,5 @@ function doExport(){
   XLSX.writeFile(wb,'crm_'+document.getElementById('df').value+'_'+document.getElementById('dt').value+'.xlsx');
   msg('✅ Excel скачан ('+rows.length+' строк)','ok');
 }
-</script></body></html>
+</script>
+</body></html>
