@@ -3,60 +3,62 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Экспорт активностей CRM</title>
+<title>CRM: Экспорт активностей</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#2d3748;width:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#2d3748}
 .header{background:linear-gradient(135deg,#2B5CE6,#1a3fa0);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
 .header h1{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
 .header p{font-size:12px;opacity:.75}
 .wrap{padding:16px 20px}
-.filter-card{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
-.filter-block{display:flex;flex-direction:column;gap:6px}
-.filter-block .flabel{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px}
-.dates-row{display:flex;gap:8px;align-items:center}
-input[type=date]{border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 10px;font-size:13px;color:#2d3748;background:#fafbfc;cursor:pointer}
+.fc{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.filters-row{display:flex;flex-wrap:wrap;gap:0;align-items:stretch}
+.fb{display:flex;flex-direction:column;gap:6px;padding:0 16px}
+.fb:first-child{padding-left:0}
+.fb-label{font-size:11px;font-weight:700;color:#718096;text-transform:uppercase;letter-spacing:.5px}
+.fd{width:1px;background:#e8ecf0;margin:0 4px;align-self:stretch}
+.dates{display:flex;gap:6px;align-items:center}
+input[type=date]{border:1.5px solid #e2e8f0;border-radius:7px;padding:6px 10px;font-size:13px;color:#2d3748;background:#fafbfc}
 input[type=date]:focus{outline:none;border-color:#2B5CE6}
 .pills{display:flex;flex-wrap:wrap;gap:5px}
-.pill{display:flex;align-items:center;gap:4px;padding:5px 12px;border:1.5px solid #e2e8f0;border-radius:16px;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;user-select:none;white-space:nowrap;background:#fff}
-.pill:hover{border-color:#2B5CE6;background:#f0f4ff;color:#2B5CE6}
+.pill{display:flex;align-items:center;gap:4px;padding:5px 12px;border:1.5px solid #e2e8f0;border-radius:16px;cursor:pointer;font-size:12px;font-weight:500;user-select:none;white-space:nowrap;background:#fff;transition:all .15s}
+.pill:hover{border-color:#2B5CE6;background:#f0f4ff}
 .pill input{display:none}
 .pill.on{background:#2B5CE6;border-color:#2B5CE6;color:#fff}
-.filter-divider{width:1px;background:#e8ecf0;align-self:stretch;margin:0 2px}
-.action-row{display:flex;gap:10px;align-items:center}
+.ac{display:flex;gap:10px;align-items:center;margin-top:14px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 22px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
-.btn-primary{background:linear-gradient(135deg,#2B5CE6,#1a3fa0);color:#fff;box-shadow:0 2px 8px rgba(43,92,230,.3)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(43,92,230,.4)}
-.btn-primary:disabled{background:#a0aec0;box-shadow:none;cursor:not-allowed;transform:none}
-.btn-export{background:#fff;color:#2B5CE6;border:1.5px solid #2B5CE6}
-.btn-export:hover{background:#f0f4ff}
-.status-bar{border-left:4px solid #2B5CE6;border-radius:0 7px 7px 0;padding:9px 14px;font-size:13px;color:#2B5CE6;background:#edf2ff;margin-top:10px;display:none}
-.status-bar.err{background:#fff5f5;border-color:#e53e3e;color:#c53030}
-.status-bar.ok{background:#f0fff4;border-color:#38a169;color:#276749}
-.prog{height:4px;background:#e2e8f0;border-radius:2px;margin-top:8px;overflow:hidden;display:none}
-.prog-fill{height:100%;background:linear-gradient(90deg,#2B5CE6,#4c7af4);transition:width .3s;width:0}
-.stats-row{display:flex;gap:10px;margin-top:10px;display:none}
+.bp{background:linear-gradient(135deg,#2B5CE6,#1a3fa0);color:#fff;box-shadow:0 2px 8px rgba(43,92,230,.3)}
+.bp:hover{transform:translateY(-1px)}
+.bp:disabled{background:#a0aec0;box-shadow:none;cursor:not-allowed;transform:none}
+.bs{background:#fff;color:#2B5CE6;border:1.5px solid #2B5CE6}
+.bs:hover{background:#f0f4ff}
+.sb{border-left:4px solid #2B5CE6;border-radius:0 7px 7px 0;padding:9px 14px;font-size:13px;color:#2B5CE6;background:#edf2ff;margin-top:10px;display:none}
+.sb.err{background:#fff5f5;border-color:#e53e3e;color:#c53030}
+.sb.ok{background:#f0fff4;border-color:#38a169;color:#276749}
+.pg-bar{height:4px;background:#e2e8f0;border-radius:2px;margin-top:8px;overflow:hidden;display:none}
+.pg-fill{height:100%;background:linear-gradient(90deg,#2B5CE6,#4c7af4);transition:width .3s;width:0}
+.stats{display:flex;gap:10px;margin-top:10px;display:none}
 .stat{flex:1;background:#f8faff;border-radius:8px;padding:10px 14px;text-align:center;border:1px solid #e2e8f0}
 .stat .n{font-size:22px;font-weight:700;color:#2B5CE6}
 .stat .l{font-size:11px;color:#718096;margin-top:1px}
-.result-card{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:none}
-.result-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.result-header strong{font-size:14px;color:#2d3748}
-.tbl-wrap{overflow-x:auto}
+.rc{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:none}
+.rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.rh strong{font-size:14px}
+.tw{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{background:#f7fafc;padding:8px 12px;text-align:left;font-weight:600;color:#4a5568;border-bottom:2px solid #e2e8f0;white-space:nowrap;position:sticky;top:0}
-td{padding:7px 12px;border-bottom:1px solid #f0f4f8;color:#2d3748;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+th{background:#f7fafc;padding:8px 12px;text-align:left;font-weight:600;color:#4a5568;border-bottom:2px solid #e2e8f0;white-space:nowrap}
+td{padding:7px 12px;border-bottom:1px solid #f0f4f8;color:#2d3748;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 tr:hover td{background:#f8faff}
 .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
-.b-blue{background:#bee3f8;color:#1a365d}
-.b-green{background:#c6f6d5;color:#22543d}
-.b-gray{background:#e2e8f0;color:#4a5568}
-.b-orange{background:#feebc8;color:#744210}
+.bb{background:#bee3f8;color:#1a365d}
+.bg{background:#c6f6d5;color:#22543d}
+.bo{background:#feebc8;color:#744210}
+.bgr{background:#e2e8f0;color:#4a5568}
 .pager{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap;align-items:center}
-.pg{padding:5px 10px;border:1.5px solid #e2e8f0;border-radius:5px;background:#fff;cursor:pointer;font-size:12px}
-.pg:hover{border-color:#2B5CE6;color:#2B5CE6}
-.pg.on{background:#2B5CE6;color:#fff;border-color:#2B5CE6}
+.pgb{padding:5px 10px;border:1.5px solid #e2e8f0;border-radius:5px;background:#fff;cursor:pointer;font-size:12px}
+.pgb:hover{border-color:#2B5CE6;color:#2B5CE6}
+.pgb.on{background:#2B5CE6;color:#fff;border-color:#2B5CE6}
 .pg-info{font-size:12px;color:#718096;margin-left:6px}
 </style>
 </head>
@@ -66,66 +68,64 @@ tr:hover td{background:#f8faff}
   <p>Лиды и сделки → Excel</p>
 </div>
 <div class="wrap">
-  <div class="filter-card">
-    <div class="filter-block">
-      <div class="flabel">📅 Период</div>
-      <div class="dates-row">
-        <input type="date" id="dateFrom"/>
-        <span style="color:#a0aec0;font-size:13px">—</span>
-        <input type="date" id="dateTo"/>
+  <div class="fc">
+    <div class="filters-row">
+      <div class="fb">
+        <div class="fb-label">📅 Период</div>
+        <div class="dates">
+          <input type="date" id="df"/>
+          <span style="color:#a0aec0">—</span>
+          <input type="date" id="dt"/>
+        </div>
+      </div>
+      <div class="fd"></div>
+      <div class="fb">
+        <div class="fb-label">🏷 Сущность</div>
+        <div class="pills" id="ePills">
+          <label class="pill on"><input type="checkbox" value="1" checked>👤 Лиды</label>
+          <label class="pill on"><input type="checkbox" value="2" checked>🤝 Сделки</label>
+        </div>
+      </div>
+      <div class="fd"></div>
+      <div class="fb">
+        <div class="fb-label">📌 Статус</div>
+        <div class="pills" id="sPills">
+          <label class="pill on"><input type="checkbox" value="true" checked>✅ Завершено</label>
+          <label class="pill on"><input type="checkbox" value="false" checked>⏳ Активно</label>
+        </div>
+      </div>
+      <div class="fd"></div>
+      <div class="fb">
+        <div class="fb-label">⚡ Тип активности</div>
+        <div class="pills" id="tPills">
+          <label class="pill on"><input type="checkbox" value="2" checked>📞 Звонок</label>
+          <label class="pill on"><input type="checkbox" value="4" checked>📧 Email</label>
+          <label class="pill on"><input type="checkbox" value="6" checked>📋 Задача</label>
+          <label class="pill on"><input type="checkbox" value="1" checked>🤝 Встреча</label>
+          <label class="pill on"><input type="checkbox" value="12" checked>💬 Чат</label>
+        </div>
       </div>
     </div>
-    <div class="filter-divider"></div>
-    <div class="filter-block">
-      <div class="flabel">🏷 Сущность</div>
-      <div class="pills" id="entityPills">
-        <label class="pill on"><input type="checkbox" value="1" checked>👤 Лиды</label>
-        <label class="pill on"><input type="checkbox" value="2" checked>🤝 Сделки</label>
-      </div>
+    <div class="ac">
+      <button class="btn bp" id="loadBtn" onclick="load()">🔍 Загрузить</button>
+      <button class="btn bs" id="expBtn" onclick="doExport()" style="display:none">📥 Скачать Excel</button>
     </div>
-    <div class="filter-divider"></div>
-    <div class="filter-block">
-      <div class="flabel">📌 Статус</div>
-      <div class="pills" id="statusPills">
-        <label class="pill on"><input type="checkbox" value="true" checked>✅ Завершено</label>
-        <label class="pill on"><input type="checkbox" value="false" checked>⏳ Активно</label>
-      </div>
-    </div>
-    <div class="filter-divider"></div>
-    <div class="filter-block">
-      <div class="flabel">⚡ Тип активности</div>
-      <div class="pills" id="typePills">
-        <label class="pill on"><input type="checkbox" value="2" checked>📞 Звонок</label>
-        <label class="pill on"><input type="checkbox" value="4" checked>📧 Email</label>
-        <label class="pill on"><input type="checkbox" value="6" checked>📋 Задача</label>
-        <label class="pill on"><input type="checkbox" value="1" checked>🤝 Встреча</label>
-        <label class="pill on"><input type="checkbox" value="12" checked>💬 Чат</label>
-      </div>
+    <div class="sb" id="sb"></div>
+    <div class="pg-bar" id="pgbar"><div class="pg-fill" id="pgfill"></div></div>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="n" id="sAll">0</div><div class="l">Всего</div></div>
+      <div class="stat"><div class="n" id="sL">0</div><div class="l">По лидам</div></div>
+      <div class="stat"><div class="n" id="sD">0</div><div class="l">По сделкам</div></div>
     </div>
   </div>
-  <div style="background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)">
-    <div class="action-row">
-      <button class="btn btn-primary" id="loadBtn" onclick="loadData()">🔍 Загрузить</button>
-      <button class="btn btn-export" id="exportBtn" onclick="exportExcel()" style="display:none">📥 Скачать Excel</button>
-    </div>
-    <div class="status-bar" id="sb"></div>
-    <div class="prog" id="prog"><div class="prog-fill" id="pf"></div></div>
-    <div class="stats-row" id="stats">
-      <div class="stat"><div class="n" id="sTotal">0</div><div class="l">Всего</div></div>
-      <div class="stat"><div class="n" id="sLeads">0</div><div class="l">По лидам</div></div>
-      <div class="stat"><div class="n" id="sDeals">0</div><div class="l">По сделкам</div></div>
-    </div>
-  </div>
-  <div class="result-card" id="tCard">
-    <div class="result-header">
-      <strong>📄 Список активностей</strong>
-    </div>
-    <div class="tbl-wrap">
-      <table id="tbl">
+  <div class="rc" id="rc">
+    <div class="rh"><strong>📄 Список активностей</strong></div>
+    <div class="tw">
+      <table>
         <thead><tr>
-          <th>#</th><th>Тип сущности</th><th>ID</th><th>Название сущности</th>
-          <th>Тип активности</th><th>Тема</th>
-          <th>Ответственный</th><th>Создана</th><th>Срок</th><th>Статус</th>
+          <th>#</th><th>Тип суш.</th><th>ID</th><th>Название</th>
+          <th>Активность</th><th>Тема</th><th>Ответственный</th>
+          <th>Создана</th><th>Срок</th><th>Статус</th>
         </tr></thead>
         <tbody id="tb"></tbody>
       </table>
@@ -134,356 +134,149 @@ tr:hover td{background:#f8faff}
   </div>
 </div>
 <script>
-const API_KEY = 'vibe_api_LPzpJuecyBB8QcrWN2W7mIk32F2c0y24_dc8d4f';
-const BASE = 'https://vibecode.bitrix24.tech/v1';
-const TYPES = {1:'Встреча',2:'Звонок',4:'Email',6:'Задача',12:'Чат'};
-const OWNER = {1:'Лид',2:'Сделка',3:'Контакт',4:'Компания'};
-let allData=[], page=1;
-const PS=100;
+const KEY='vibe_api_LPzpJuecyBB8QcrWN2W7mIk32F2c0y24_dc8d4f';
+const BASE='https://vibecode.bitrix24.tech/v1';
+const TMAP={1:'Встреча',2:'Звонок',4:'Email',6:'Задача',12:'Чат'};
+const OMAP={1:'Лид',2:'Сделка',3:'Контакт',4:'Компания'};
+let rows=[], pg=1; const PS=100;
 
-// pills init
-document.querySelectorAll('.pills').forEach(c=>{
-  c.querySelectorAll('.pill').forEach(p=>{
-    p.addEventListener('click',e=>{
-      e.preventDefault();
-      const cb=p.querySelector('input');
-      cb.checked=!cb.checked;
-      p.classList.toggle('on',cb.checked);
-    });
-  });
-});
+// pills
+document.querySelectorAll('.pills').forEach(c=>c.querySelectorAll('.pill').forEach(p=>{
+  p.addEventListener('click',e=>{e.preventDefault();const cb=p.querySelector('input');cb.checked=!cb.checked;p.classList.toggle('on',cb.checked);});
+}));
 
 // default dates
-const today=new Date(), ma=new Date(today);
-ma.setDate(today.getDate()-30);
-document.getElementById('dateTo').value=today.toISOString().split('T')[0];
-document.getElementById('dateFrom').value=ma.toISOString().split('T')[0];
+const td=new Date(),ma=new Date(td);
+ma.setDate(td.getDate()-30);
+document.getElementById('dt').value=td.toISOString().split('T')[0];
+document.getElementById('df').value=ma.toISOString().split('T')[0];
 
-function ss(msg,type){
-  const el=document.getElementById('sb');
-  el.textContent=msg;
-  el.className='status-bar'+(type==='err'?' err':type==='ok'?' ok':'');
-  el.style.display=msg?'block':'none';
-}
-function sp(p){
-  document.getElementById('prog').style.display=p>0&&p<100?'block':'none';
-  document.getElementById('pf').style.width=p+'%';
-}
-function vals(id){return[...document.querySelectorAll('#'+id+' input:checked')].map(x=>x.value);}
+function msg(t,tp){const e=document.getElementById('sb');e.textContent=t;e.className='sb'+(tp==='err'?' err':tp==='ok'?' ok':'');e.style.display=t?'block':'none';}
+function prg(p){document.getElementById('pgbar').style.display=p>0&&p<100?'block':'none';document.getElementById('pgfill').style.width=p+'%';}
+function checked(id){return[...document.querySelectorAll('#'+id+' input:checked')].map(x=>x.value);}
 
-async function api(path,params={}){
-  const q=new URLSearchParams({...params,limit:'50'});
-  const r=await fetch(BASE+path+'?'+q,{headers:{'X-Vibe-Key':API_KEY}});
-  if(!r.ok) throw new Error('API error '+r.status+' '+path);
+async function apiFetch(path, parts){
+  // parts = array of 'key=value' strings, avoids query object issues with arrays
+  const url=BASE+path+'?'+parts.join('&');
+  const r=await fetch(url,{headers:{'X-Vibe-Key':KEY}});
+  if(!r.ok)throw new Error('HTTP '+r.status+': '+await r.text());
   return r.json();
 }
 
-async function fetchAll(path, params={}){
-  let all=[], start=0;
+async function fetchAll(path, baseParts){
+  let all=[], offset=0;
   while(true){
-    const r=await api(path,{...params,offset:String(start)});
-    all=all.concat(r.data||[]);
-    if(!(r.meta?.hasMore))break;
-    start+=50;
-    sp(Math.min(80,10+start/20));
+    const d=await apiFetch(path,[...baseParts,'limit=50','offset='+offset]);
+    all=all.concat(d.data||[]);
+    if(!d.meta?.hasMore)break;
+    offset+=50;
+    prg(Math.min(70,10+offset/20));
   }
   return all;
 }
 
-async function loadData(){
+async function load(){
   const btn=document.getElementById('loadBtn');
   btn.disabled=true;
-  document.getElementById('exportBtn').style.display='none';
-  document.getElementById('tCard').style.display='none';
+  document.getElementById('expBtn').style.display='none';
+  document.getElementById('rc').style.display='none';
   document.getElementById('stats').style.display='none';
-  allData=[];
-  const df=document.getElementById('dateFrom').value;
-  const dt=document.getElementById('dateTo').value;
-  const entities=vals('entityPills');
-  const statuses=vals('statusPills');
-  const types=vals('typePills');
-  if(!df||!dt){ss('Укажите период','err');btn.disabled=false;return;}
-  if(!entities.length){ss('Выберите сущность','err');btn.disabled=false;return;}
-  if(!types.length){ss('Выберите тип активности','err');btn.disabled=false;return;}
+  rows=[];
+  const df=document.getElementById('df').value;
+  const dt=document.getElementById('dt').value;
+  const ent=checked('ePills');
+  const stat=checked('sPills');
+  const typ=checked('tPills');
+  if(!df||!dt){msg('Укажите период','err');btn.disabled=false;return;}
+  if(!ent.length){msg('Выберите сущность','err');btn.disabled=false;return;}
+  if(!typ.length){msg('Выберите тип активности','err');btn.disabled=false;return;}
   try{
-    ss('Загрузка активностей...');sp(5);
-    const params={
-      'filter[createdAt][from]':df+'T00:00:00',
-      'filter[createdAt][to]':dt+'T23:59:59'
-    };
-    // ownerTypeId filter - multiple via repeated param
-    const qParts=[];
-    for(const e of entities) qParts.push('filter[ownerTypeId][]='+e);
-    for(const t of types) qParts.push('filter[typeId][]='+t);
-    // fetch with custom query string
-    let all=[], start=0;
-    while(true){
-      const q='filter[createdAt][from]='+encodeURIComponent(df+'T00:00:00')
-        +'&filter[createdAt][to]='+encodeURIComponent(dt+'T23:59:59')
-        +'&'+qParts.join('&')
-        +'&limit=50&offset='+start;
-      const r=await fetch(BASE+'/activities?'+q,{headers:{'X-Vibe-Key':API_KEY}});
-      if(!r.ok) throw new Error('HTTP '+r.status);
-      const d=await r.json();
-      all=all.concat(d.data||[]);
-      if(!d.meta?.hasMore)break;
-      start+=50;
-      sp(Math.min(70,5+start/30));
-    }
-    // filter by status
-    const filtered=statuses.length<2 ? all.filter(a=>{
-      const comp=a.completed?'true':'false';
-      return statuses.includes(comp);
-    }) : all;
-    ss('Загрузка названий сущностей...');sp(75);
-    // load entity names
-    const leadIds=[...new Set(filtered.filter(a=>a.ownerTypeId==1).map(a=>a.ownerId))].filter(Boolean);
-    const dealIds=[...new Set(filtered.filter(a=>a.ownerTypeId==2).map(a=>a.ownerId))].filter(Boolean);
-    const lmap={}, dmap={};
-    if(leadIds.length){
-      const chunk=50;
-      for(let i=0;i<leadIds.length;i+=chunk){
-        const ids=leadIds.slice(i,i+chunk);
-        const q='filter[id][]='+ids.join('&filter[id][]=')+&limit='+chunk;
-        const r=await fetch(BASE+'/leads?'+q,{headers:{'X-Vibe-Key':API_KEY}});
-        if(r.ok){const d=await r.json();(d.data||[]).forEach(l=>{lmap[l.id]=l.title||((l.name||'')+' '+(l.lastName||'')).trim()||('Лид #'+l.id);});}
-      }
-    }
-    if(dealIds.length){
-      const chunk=50;
-      for(let i=0;i<dealIds.length;i+=chunk){
-        const ids=dealIds.slice(i,i+chunk);
-        const q='filter[id][]='+ids.join('&filter[id][]=')+&limit='+chunk;
-        const r=await fetch(BASE+'/deals?'+q,{headers:{'X-Vibe-Key':API_KEY}});
-        if(r.ok){const d=await r.json();(d.data||[]).forEach(d2=>{dmap[d2.id]=d2.title||('Сделка #'+d2.id);});}
-      }
-    }
-    // load users
-    const umap={};
-    const uids=[...new Set(filtered.map(a=>a.responsibleId).filter(Boolean))];
-    if(uids.length){
-      const r=await fetch(BASE+'/users?limit=200',{headers:{'X-Vibe-Key':API_KEY}});
-      if(r.ok){const d=await r.json();(d.data||[]).forEach(u=>{umap[u.id]=(u.name||'')+' '+(u.lastName||'');});}
-    }
-    sp(90);
-    allData=filtered.map(a=>{
-      const isLead=a.ownerTypeId==1;
-      const ename=isLead?(lmap[a.ownerId]||'—'):(dmap[a.ownerId]||'—');
-      return{
-        id:a.id, ownerType:OWNER[a.ownerTypeId]||(a.ownerTypeId?'Type '+a.ownerTypeId:'—'),
-        ownerId:a.ownerId, ownerName:ename,
-        typeName:TYPES[a.typeId]||('Type '+a.typeId),
-        subject:a.subject||'—',
-        responsible:(umap[a.responsibleId]||'').trim()||('ID '+a.responsibleId),
-        created:fmt(a.createdAt), deadline:fmt(a.deadline),
-        completed:a.completed?'Завершено':'Активно',
-        description:strip(a.description||'')
-      };
-    });
-    document.getElementById('sTotal').textContent=allData.length;
-    document.getElementById('sLeads').textContent=allData.filter(r=>r.ownerType==='Лид').length;
-    document.getElementById('sDeals').textContent=allData.filter(r=>r.ownerType==='Сделка').length;
-    document.getElementById('stats').style.display='flex';
-    sp(100);ss('✅ Загружено '+allData.length+' активностей','ok');
-    page=1;renderTable();
-    document.getElementById('tCard').style.display='block';
-    if(allData.length)document.getElementById('exportBtn').style.display='inline-flex';
-  }catch(e){
-    ss('Ошибка: '+e.message,'err');
-  }finally{btn.disabled=false;sp(0);}
-}
-function fmt(d){if(!d||d==='')return'—';try{return new Date(d).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}catch{return d;}}
-function strip(h){const t=document.createElement('div');t.innerHTML=h;return t.textContent||t.innerText||'';}
-function bdg(t,c){return'<span class="badge b-'+c+'">'+t+'</span>';}
-function renderTable(){
-  const start=(page-1)*PS;
-  document.getElementById('tb').innerHTML=allData.slice(start,start+PS).map((r,i)=>
-    '<tr><td>'+(start+i+1)+
-    '</td><td>'+bdg(r.ownerType,r.ownerType==='Лид'?'blue':'green')+
-    '</td><td>'+r.ownerId+
-    '</td><td title="'+r.ownerName+'">'+r.ownerName+
-    '</td><td>'+r.typeName+
-    '</td><td title="'+r.subject+'">'+r.subject+
-    '</td><td>'+r.responsible+
-    '</td><td>'+r.created+
-    '</td><td>'+r.deadline+
-    '</td><td>'+bdg(r.completed,r.completed==='Завершено'?'green':'orange')+
-    '</td></tr>'
-  ).join('');
-  document.getElementById('tbl').style.display='table';
-  renderPager();
-}
-function renderPager(){
-  const total=Math.ceil(allData.length/PS);
-  const pag=document.getElementById('pager');
-  if(total<=1){pag.innerHTML='';return;}
-  let h='';
-  for(let i=1;i<=total;i++){
-    if(i===1||i===total||Math.abs(i-page)<=2)h+='<button class="pg'+(i===page?' on':''+'" onclick="goPage('+i+')">'+i+'</button>';
-    else if(Math.abs(i-page)===3)h+='<span style="padding:0 4px">…</span>';
-  }
-  h+='<span class="pg-info">'+allData.length+' зап., стр. '+page+' из '+total+'</span>';
-  pag.innerHTML=h;
-}
-function goPage(n){page=n;renderTable();}
-function exportExcel(){
-  if(!allData.length)return;
-  const rows=allData.map(r=>({"Тип":r.ownerType,"ID":r.ownerId,"Название":r.ownerName,"Активность":r.typeName,"Тема":r.subject,"Ответственный":r.responsible,"Создана":r.created,"Срок":r.deadline,"Статус":r.completed,"Описание":r.description}));
-  const ws=XLSX.utils.json_to_sheet(rows);
-  ws['!cols']=[10,8,28,14,28,20,18,18,12,40].map(w=>({wch:w}));
-  const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,'Активности');
-  const df=document.getElementById('dateFrom').value, dt=document.getElementById('dateTo').value;
-  XLSX.writeFile(wb,'crm_activities_'+df+'_'+dt+'.xlsx');
-  ss('✅ Excel скачан ('+allData.length+' строк)','ok');
-}
-<script>
-const API_KEY = 'vibe_api_LPzpJuecyBB8QcrWN2W7mIk32F2c0y24_dc8d4f';
-const BASE = 'https://vibecode.bitrix24.tech/v1';
-const TYPES = {1:'Встреча',2:'Звонок',4:'Email',6:'Задача',12:'Чат'};
-const OWNER = {1:'Лид',2:'Сделка',3:'Контакт',4:'Компания'};
-let allData=[], page=1;
-const PS=100;
-
-document.querySelectorAll('.pills').forEach(c=>{
-  c.querySelectorAll('.pill').forEach(p=>{
-    p.addEventListener('click',e=>{
-      e.preventDefault();
-      const cb=p.querySelector('input');
-      cb.checked=!cb.checked;
-      p.classList.toggle('on',cb.checked);
-    });
-  });
-});
-
-const today=new Date(), ma=new Date(today);
-ma.setDate(today.getDate()-30);
-document.getElementById('dateTo').value=today.toISOString().split('T')[0];
-document.getElementById('dateFrom').value=ma.toISOString().split('T')[0];
-
-function ss(msg,type){const el=document.getElementById('sb');el.textContent=msg;el.className='status-bar'+(type==='err'?' err':type==='ok'?' ok':'');el.style.display=msg?'block':'none';}
-function sp(p){document.getElementById('prog').style.display=p>0&&p<100?'block':'none';document.getElementById('pf').style.width=p+'%';}
-function vals(id){return[...document.querySelectorAll('#'+id+' input:checked')].map(x=>x.value);}
-
-async function vapi(path, qParts){
-  const r=await fetch(BASE+path+'?'+qParts.join('&')+'&limit=50',{headers:{'X-Vibe-Key':API_KEY}});
-  if(!r.ok) throw new Error('HTTP '+r.status+' '+path);
-  return r.json();
-}
-
-async function loadData(){
-  const btn=document.getElementById('loadBtn');
-  btn.disabled=true;
-  document.getElementById('exportBtn').style.display='none';
-  document.getElementById('tCard').style.display='none';
-  document.getElementById('stats').style.display='none';
-  allData=[];
-  const df=document.getElementById('dateFrom').value;
-  const dt=document.getElementById('dateTo').value;
-  const entities=vals('entityPills');
-  const statuses=vals('statusPills');
-  const types=vals('typePills');
-  if(!df||!dt){ss('Укажите период','err');btn.disabled=false;return;}
-  if(!entities.length){ss('Выберите сущность','err');btn.disabled=false;return;}
-  if(!types.length){ss('Выберите тип активности','err');btn.disabled=false;return;}
-  try{
-    ss('Загрузка активностей...');sp(5);
-    const baseQ=[
+    msg('Загрузка активностей...');prg(5);
+    // build raw query parts
+    const parts=[
       'filter[createdAt][from]='+encodeURIComponent(df+'T00:00:00'),
       'filter[createdAt][to]='+encodeURIComponent(dt+'T23:59:59')
     ];
-    for(const e of entities) baseQ.push('filter[ownerTypeId][]='+e);
-    for(const t of types) baseQ.push('filter[typeId][]='+t);
-    let all=[], offset=0;
-    while(true){
-      const q=[...baseQ,'offset='+offset];
-      const d=await vapi('/activities',q);
-      all=all.concat(d.data||[]);
-      if(!d.meta?.hasMore)break;
-      offset+=50;
-      sp(Math.min(70,5+offset/30));
-    }
-    const filtered=statuses.length===2?all:all.filter(a=>statuses.includes(String(a.completed)));
-    ss('Загрузка названий...');sp(75);
-    const leadIds=[...new Set(filtered.filter(a=>a.ownerTypeId==1).map(a=>a.ownerId).filter(Boolean))];
-    const dealIds=[...new Set(filtered.filter(a=>a.ownerTypeId==2).map(a=>a.ownerId).filter(Boolean))];
+    ent.forEach((v,i)=>parts.push('filter[ownerTypeId]['+i+']='+v));
+    typ.forEach((v,i)=>parts.push('filter[typeId]['+i+']='+v));
+    const acts=await fetchAll('/activities',parts);
+    // client-side status filter
+    const all=stat.length===2?acts:acts.filter(a=>stat.includes(String(a.completed)));
+    msg('Загрузка сущностей...');prg(75);
+    // get entity names
+    const lids=[...new Set(all.filter(a=>a.ownerTypeId===1).map(a=>a.ownerId).filter(Boolean))];
+    const dids=[...new Set(all.filter(a=>a.ownerTypeId===2).map(a=>a.ownerId).filter(Boolean))];
     const lmap={},dmap={},umap={};
-    for(let i=0;i<leadIds.length;i+=50){
-      const ids=leadIds.slice(i,i+50);
-      const q=ids.map(id=>'filter[id][]='+id);
-      q.push('select[]=id','select[]=title','select[]=name','select[]=lastName');
-      try{const d=await vapi('/leads',q);(d.data||[]).forEach(l=>{lmap[l.id]=l.title||((l.name||'')+' '+(l.lastName||'')).trim()||('Лид #'+l.id);});}catch(e){}
+    for(let i=0;i<lids.length;i+=50){
+      const p=lids.slice(i,i+50).map((id,j)=>'filter[id]['+j+']='+id);
+      p.push('select[]=id','select[]=title','select[]=name','select[]=lastName','limit=50');
+      try{const d=await apiFetch('/leads',p);(d.data||[]).forEach(l=>{lmap[l.id]=l.title||((l.name||'')+' '+(l.lastName||'')).trim()||'Лид #'+l.id;});}catch(e){console.warn('leads',e);}
     }
-    for(let i=0;i<dealIds.length;i+=50){
-      const ids=dealIds.slice(i,i+50);
-      const q=ids.map(id=>'filter[id][]='+id);
-      q.push('select[]=id','select[]=title');
-      try{const d=await vapi('/deals',q);(d.data||[]).forEach(d2=>{dmap[d2.id]=d2.title||('Сделка #'+d2.id);});}catch(e){}
+    for(let i=0;i<dids.length;i+=50){
+      const p=dids.slice(i,i+50).map((id,j)=>'filter[id]['+j+']='+id);
+      p.push('select[]=id','select[]=title','limit=50');
+      try{const d=await apiFetch('/deals',p);(d.data||[]).forEach(d2=>{dmap[d2.id]=d2.title||'Сделка #'+d2.id;});}catch(e){console.warn('deals',e);}
     }
-    try{const d=await vapi('/users',['limit=200']);(d.data||[]).forEach(u=>{umap[u.id]=((u.name||'')+' '+(u.lastName||'')).trim();});}catch(e){}
-    sp(95);
-    allData=filtered.map(a=>{
-      const isLead=a.ownerTypeId==1;
-      return{
-        id:a.id,
-        ownerType:OWNER[a.ownerTypeId]||('Type '+a.ownerTypeId),
-        ownerId:a.ownerId,
-        ownerName:isLead?(lmap[a.ownerId]||'-'):(dmap[a.ownerId]||'-'),
-        typeName:TYPES[a.typeId]||('Type '+a.typeId),
-        subject:a.subject||'-',
-        responsible:umap[a.responsibleId]||('ID '+a.responsibleId),
-        created:fmt(a.createdAt),
-        deadline:fmt(a.deadline),
-        completed:a.completed?'Завершено':'Активно',
-        description:strip(a.description||'')
-      };
-    });
-    document.getElementById('sTotal').textContent=allData.length;
-    document.getElementById('sLeads').textContent=allData.filter(r=>r.ownerType==='Лид').length;
-    document.getElementById('sDeals').textContent=allData.filter(r=>r.ownerType==='Сделка').length;
+    try{const d=await apiFetch('/users',['limit=200']);(d.data||[]).forEach(u=>{umap[u.id]=((u.name||'')+' '+(u.lastName||'')).trim();});}catch(e){}
+    prg(95);
+    rows=all.map(a=>({
+      id:a.id,
+      otype:OMAP[a.ownerTypeId]||'Type '+a.ownerTypeId,
+      oid:a.ownerId,
+      oname:a.ownerTypeId===1?(lmap[a.ownerId]||'—'):(dmap[a.ownerId]||'—'),
+      tname:TMAP[a.typeId]||'Type '+a.typeId,
+      subj:a.subject||'—',
+      resp:(umap[a.responsibleId]||'').trim()||'ID '+a.responsibleId,
+      cre:fmt(a.createdAt),dl:fmt(a.deadline),
+      done:a.completed?'Завершено':'Активно',
+      desc:strip(a.description||'')
+    }));
+    document.getElementById('sAll').textContent=rows.length;
+    document.getElementById('sL').textContent=rows.filter(r=>r.otype==='Лид').length;
+    document.getElementById('sD').textContent=rows.filter(r=>r.otype==='Сделка').length;
     document.getElementById('stats').style.display='flex';
-    sp(100);ss('✅ Загружено '+allData.length+' активностей','ok');
-    page=1;renderTable();
-    document.getElementById('tCard').style.display='block';
-    if(allData.length)document.getElementById('exportBtn').style.display='inline-flex';
-  }catch(e){
-    ss('Ошибка: '+e.message,'err');
-  }finally{btn.disabled=false;sp(0);}
+    prg(100);msg('✅ Загружено '+rows.length+' активностей','ok');
+    pg=1;render();
+    document.getElementById('rc').style.display='block';
+    if(rows.length)document.getElementById('expBtn').style.display='inline-flex';
+  }catch(e){msg('Ошибка: '+e.message,'err');console.error(e);}
+  finally{btn.disabled=false;prg(0);}
 }
-function fmt(d){if(!d)return'-';try{return new Date(d).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}catch{return d;}}
+function fmt(d){if(!d)return'—';try{return new Date(d).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}catch{return d;}}
 function strip(h){const t=document.createElement('div');t.innerHTML=h;return t.textContent||t.innerText||'';}
-function bdg(t,c){return'<span class="badge b-'+c+'">'+t+'</span>';}
-function renderTable(){
-  const start=(page-1)*PS;
-  document.getElementById('tb').innerHTML=allData.slice(start,start+PS).map((r,i)=>
-    '<tr><td>'+(start+i+1)+'</td><td>'+bdg(r.ownerType,r.ownerType==='Лид'?'blue':'green')+'</td><td>'+r.ownerId+'</td><td title="'+esc(r.ownerName)+'">'+esc(r.ownerName)+'</td><td>'+r.typeName+'</td><td title="'+esc(r.subject)+'">'+esc(r.subject)+'</td><td>'+esc(r.responsible)+'</td><td>'+r.created+'</td><td>'+r.deadline+'</td><td>'+bdg(r.completed,r.completed==='Завершено'?'green':'orange')+'</td></tr>'
+function x(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+function bdg(t,c){return'<span class="badge '+c+'">'+t+'</span>';}
+function render(){
+  const s=(pg-1)*PS;
+  document.getElementById('tb').innerHTML=rows.slice(s,s+PS).map((r,i)=>
+    `<tr><td>${s+i+1}</td><td>${bdg(r.otype,r.otype==='Лид'?'bb':'bg')}</td><td>${r.oid}</td>`+
+    `<td title="${x(r.oname)}">${x(r.oname)}</td><td>${r.tname}</td>`+
+    `<td title="${x(r.subj)}">${x(r.subj)}</td><td>${x(r.resp)}</td>`+
+    `<td>${r.cre}</td><td>${r.dl}</td>`+
+    `<td>${bdg(r.done,r.done==='Завершено'?'bg':'bo')}</td></tr>`
   ).join('');
-  document.getElementById('tbl').style.display='table';
   renderPager();
 }
-function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
 function renderPager(){
-  const total=Math.ceil(allData.length/PS),pag=document.getElementById('pager');
-  if(total<=1){pag.innerHTML='';return;}
+  const tot=Math.ceil(rows.length/PS),p=document.getElementById('pager');
+  if(tot<=1){p.innerHTML='';return;}
   let h='';
-  for(let i=1;i<=total;i++){
-    if(i===1||i===total||Math.abs(i-page)<=2)h+='<button class="pg'+(i===page?' on':'')+'" onclick="goPage('+i+')">'+i+'</button>';
-    else if(Math.abs(i-page)===3)h+='<span style="padding:0 4px">…</span>';
+  for(let i=1;i<=tot;i++){
+    if(i===1||i===tot||Math.abs(i-pg)<=2)h+=`<button class="pgb${i===pg?' on':''}" onclick="goPage(${i})">${i}</button>`;
+    else if(Math.abs(i-pg)===3)h+='<span style="padding:0 4px">…</span>';
   }
-  h+='<span class="pg-info">'+allData.length+' зап., стр. '+page+' из '+total+'</span>';
-  pag.innerHTML=h;
+  h+=`<span class="pg-info">${rows.length} зап., стр. ${pg} из ${tot}</span>`;
+  p.innerHTML=h;
 }
-function goPage(n){page=n;renderTable();}
-function exportExcel(){
-  if(!allData.length)return;
-  const rows=allData.map(r=>({"Тип":r.ownerType,"ID":r.ownerId,"Название":r.ownerName,"Активность":r.typeName,"Тема":r.subject,"Ответственный":r.responsible,"Создана":r.created,"Срок":r.deadline,"Статус":r.completed,"Описание":r.description}));
-  const ws=XLSX.utils.json_to_sheet(rows);
+function goPage(n){pg=n;render();}
+function doExport(){
+  if(!rows.length)return;
+  const data=rows.map(r=>({"Тип сущности":r.otype,"ID":r.oid,"Название":r.oname,"Активность":r.tname,"Тема":r.subj,"Ответственный":r.resp,"Создана":r.cre,"Срок":r.dl,"Статус":r.done,"Описание":r.desc}));
+  const ws=XLSX.utils.json_to_sheet(data);
   ws['!cols']=[10,8,28,14,28,20,18,18,12,40].map(w=>({wch:w}));
   const wb=XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb,ws,'Активности');
-  const df=document.getElementById('dateFrom').value,dt=document.getElementById('dateTo').value;
-  XLSX.writeFile(wb,'crm_activities_'+df+'_'+dt+'.xlsx');
-  ss('✅ Excel скачан ('+allData.length+' строк)','ok');
+  XLSX.writeFile(wb,'crm_'+document.getElementById('df').value+'_'+document.getElementById('dt').value+'.xlsx');
+  msg('✅ Excel скачан ('+rows.length+' строк)','ok');
 }
-</script>
-</body></html>
+</script></body></html>
